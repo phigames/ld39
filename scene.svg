@@ -15,7 +15,10 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="scene.svg">
+   sodipodi:docname="scene.svg"
+   inkscape:export-filename="D:\phi\ld39\web\res\scene.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs4">
     <linearGradient
@@ -34,9 +37,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4142136"
-     inkscape:cx="339.50805"
-     inkscape:cy="193.1578"
+     inkscape:zoom="2.8284271"
+     inkscape:cx="272.2103"
+     inkscape:cy="273.04707"
      inkscape:document-units="px"
      inkscape:current-layer="layer3"
      showgrid="true"
@@ -69,7 +72,7 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="background"
-     style="display:inline"
+     style="display:none"
      sodipodi:insensitive="true">
     <g
        id="g4204">
@@ -101,7 +104,8 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-602.36218)"
-     style="display:inline">
+     style="display:none"
+     sodipodi:insensitive="true">
     <path
        inkscape:connector-curvature="0"
        id="path3910"
@@ -830,44 +834,68 @@
        style="fill:#b3b3b3;stroke:none"
        d="m 70,235 0,-15 10,0 0,15"
        id="path3103"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\phi\ld39\web\res\switch.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        style="fill:#808080;stroke:none"
        d="m 70,250 0,-15 10,0 0,15 z"
        id="path3101"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccc" />
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-filename="D:\phi\ld39\web\res\switch.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        style="fill:#cccccc;fill-opacity:1;stroke:none"
        d="m 70,225 0,-5 10,0 z"
        id="path4088"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\phi\ld39\web\res\switch.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        style="fill:#666666;fill-opacity:1;stroke:none"
        d="m 70,250 10,0 0,-5 z"
        id="path4090"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\phi\ld39\web\res\switch.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        style="fill:#b3b3b3;stroke:none"
        d="m 90,250 0,-15 10,0 0,15 z"
        id="path3101-7"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccc" />
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-filename="D:\phi\ld39\web\res\switch.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        style="fill:#808080;stroke:none"
        d="m 90,235 0,-15 10,0 0,15"
        id="path3103-2"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\phi\ld39\web\res\switch.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        style="fill:#999999;fill-opacity:1;stroke:none"
        d="m 90,225 0,-5 10,0 z"
        id="path4088-9"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\phi\ld39\web\res\switch.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        style="fill:#999999;fill-opacity:1;stroke:none"
        d="m 90,250 10,0 0,-5 z"
        id="path4090-5"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\phi\ld39\web\res\switch.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        style="fill:#b3b3b3;fill-opacity:1;stroke:none"
        d="m 140,175 5,-25 5,25 z"
@@ -886,7 +914,10 @@
        x="630"
        y="160"
        inkscape:transform-center-x="45"
-       inkscape:transform-center-y="-20" />
+       inkscape:transform-center-y="-20"
+       inkscape:export-filename="D:\phi\ld39\web\res\cover.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        style="fill:#dadada;fill-opacity:1;stroke:none;display:inline"
        d="m 760,220 0,20 -100,0 z"
@@ -894,7 +925,10 @@
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccc"
        inkscape:transform-center-x="20"
-       inkscape:transform-center-y="20" />
+       inkscape:transform-center-y="20"
+       inkscape:export-filename="D:\phi\ld39\web\res\cover.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        style="fill:#f2f2f2;fill-opacity:1;stroke:none;display:inline"
        d="m 630,180 0,-20 100,0 z"
@@ -902,7 +936,10 @@
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccc"
        inkscape:transform-center-x="50"
-       inkscape:transform-center-y="-40" />
+       inkscape:transform-center-y="-40"
+       inkscape:export-filename="D:\phi\ld39\web\res\cover.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <rect
        y="220"
        x="740"
@@ -911,7 +948,10 @@
        id="rect5032"
        style="color:#000000;fill:#808080;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        inkscape:transform-center-x="-5"
-       inkscape:transform-center-y="5" />
+       inkscape:transform-center-y="5"
+       inkscape:export-filename="D:\phi\ld39\web\res\cover.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <rect
        style="color:#000000;fill:#808080;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        id="rect4493-0"

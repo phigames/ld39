@@ -10,7 +10,7 @@ class Wire {
   List<p2.Body> attachableEnds;
   bool equilibrium;
 
-  Wire(this.scene, String key, num startX, num startY, bool constrainedStart, int length, [int tearPoint, num endX, num endY]) {
+  Wire(this.scene, String key, num startX, num startY, bool constrainedStart, int length, num endX, num endY, [bool constrainedEnd = false, int tearPoint]) {
     attachableEnds = new List<p2.Body>();
     phaser.Sprite<p2.Body> lastRect;
     phaser.Sprite<p2.Body> newRect;
@@ -20,6 +20,7 @@ class Wire {
     num d = distance(startX, startY, endX, endY) / length;
     num dX = cos(a) * d;
     num dY = sin(a) * d;
+    print('$dX, $dY');
     for (int i = 0; i < length; i++) {
       newRect = game.add.sprite(startX + i * dX, startY + i * dY, key);
       game.physics.p2.enable(newRect);
@@ -49,12 +50,14 @@ class Wire {
       }
       lastRect = newRect;
     }
-    if (endX != null && endY != null) {
+    if (constrainedEnd) {
       p2.Body fixedBody = new p2.Body(game);
       game.physics.p2.addBody(fixedBody);
       constraintEnd = game.physics.p2.createRevoluteConstraint(lastRect, [ width / 2 - height / 2, 0 ], fixedBody, [ endX, endY ]);
     } else {
       attachableEnds.add(newRect.body);
+      newRect.body.velocity.y = 100;
+      newRect.body.velocity.x = 100;
     }
     equilibrium = false;
   }

@@ -2,7 +2,7 @@ part of ld39;
 
 class Battery {
 
-  static const num TEAR_THRESHOLD = 400;
+  static const num TEAR_THRESHOLD = 200;
 
   Scene scene;
   phaser.Sprite<p2.Body> sprite; // store body?

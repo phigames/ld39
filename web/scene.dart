@@ -10,9 +10,10 @@ abstract class Scene {
   phaser.Sprite light;
   num lightRadius;
 
+  List<Removable> removables;
+  List<Switch> switches;
   List<Battery> batteries;
   List<Wire> wires;
-  List<Removable> removables;
   p2.CollisionGroup mouseCollisionGroup;
   p2.CollisionGroup wireCollisionGroup;
 
@@ -22,9 +23,10 @@ abstract class Scene {
   bool mouseClicked;
 
   Scene(this.backgroundColor, this.backgroundKey, this.lightRadius) {
+    removables = new List<Removable>();
+    switches = new List<Switch>();
     batteries = new List<Battery>();
     wires = new List<Wire>();
-    removables = new List<Removable>();
   }
 
   void preload() {
