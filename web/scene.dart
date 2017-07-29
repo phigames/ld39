@@ -10,12 +10,17 @@ abstract class Scene {
   phaser.Sprite light;
   num lightRadius;
 
+  List<Battery> batteries;
+  p2.CollisionGroup mouseCollisionGroup;
+  p2.CollisionGroup wireCollisionGroup;
+
   num mouseX, mouseY;
   num mouseDX, mouseDY;
   bool mouseClicked;
-  p2.CollisionGroup mouseCollisionGroup;
 
-  Scene(this.backgroundColor, this.backgroundKey, this.lightRadius);
+  Scene(this.backgroundColor, this.backgroundKey, this.lightRadius) {
+    batteries = new List<Battery>();
+  }
 
   void preload() {
     game.load.image(backgroundKey, 'res/$backgroundKey.png');
@@ -30,12 +35,15 @@ abstract class Scene {
     background = game.add.sprite(0, 0, backgroundKey);
 
     mouseCollisionGroup = game.physics.p2.createCollisionGroup();
+    wireCollisionGroup = game.physics.p2.createCollisionGroup();
 
     flashlight = game.add.sprite(0, 0, 'flashlight');
     game.physics.p2.enable(flashlight);
     flashlight.body.setCollisionGroup(mouseCollisionGroup);
     flashlight.body.collides(mouseCollisionGroup);
+    flashlight.body.collides(wireCollisionGroup);
     flashlight.body.fixedRotation = true;
+    flashlight.body.mass = 1000000.0;
 
     lightMask = game.add.graphics();
     game.stage.mask = lightMask;
@@ -81,47 +89,5 @@ abstract class Scene {
     light.y = y - lightRadius;
     light.width = light.height = lightRadius * 2;
   }
-
-}
-
-class SceneLD extends Scene {
-
-  phaser.Sprite<p2.Body> battery;
-  Wire wire;
-
-  SceneLD() : super(0x222222, 'scene', 200) {
-  }
-
-  void create() {
-    super.create();
-    wire = new Wire(this, 'wire', 100, 100, true, 11, 5, 100, 300);
-    battery = game.add.sprite(200, 200, 'battery');
-    game.physics.p2.enable(battery);
-
-    battery.body.setCollisionGroup(mouseCollisionGroup);
-    battery.body.collides(mouseCollisionGroup);
-  }
-
-  void preload() {
-    super.preload();
-    game.load.image('battery', 'res/battery.png');
-    game.load.image('wire', 'res/wire.png');
-  }
-
-  void render() {
-
-  }
-
-  void update() {
-    super.update();
-    wire.update();
-    if (mouseClicked && distance(mouseX, mouseY, battery.body.x, battery.body.y) < 50) {
-      battery.body.velocity.x = random.nextDouble() * 2000 - 1000;
-      battery.body.velocity.y = random.nextDouble() * 2000 - 1000;
-      mouseClicked = false;
-    }
-  }
-
-
 
 }

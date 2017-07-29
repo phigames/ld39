@@ -6,6 +6,8 @@ import 'package:play_phaser/phaser.dart' as phaser;
 import 'package:play_phaser/p2.dart' as p2;
 
 part 'scene.dart';
+part 'sceneLD.dart';
+part 'battery.dart';
 part 'removable.dart';
 part 'switch.dart';
 part 'wire.dart';
