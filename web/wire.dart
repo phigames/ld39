@@ -2,25 +2,28 @@ part of ld39;
 
 class Wire {
 
+  static const num TEAR_THRESHOLD = 500;
+
+  Scene scene;
   p2.RevoluteConstraint constraintStart, constraintEnd, tearConstraint;
   p2.Body tearBodyA, tearBodyB;
   List<p2.Body> attachableEnds;
   bool equilibrium;
 
-  Wire(Scene scene, String key, num startX, num startY, bool constrainedStart, int length, [int tearPoint, num endX, num endY]) {
+  Wire(this.scene, String key, num startX, num startY, bool constrainedStart, int length, [int tearPoint, num endX, num endY]) {
     attachableEnds = new List<p2.Body>();
     phaser.Sprite<p2.Body> lastRect;
     phaser.Sprite<p2.Body> newRect;
     num width = 20;
     num height = 5;
-    num angle = atan((endY - startY) / (endX - startX));
+    num a = angle(startX, startY, endX, endY);
     num d = distance(startX, startY, endX, endY) / length;
-    num dX = cos(angle) * d;
-    num dY = sin(angle) * d;
+    num dX = cos(a) * d;
+    num dY = sin(a) * d;
     for (int i = 0; i < length; i++) {
       newRect = game.add.sprite(startX + i * dX, startY + i * dY, key);
       game.physics.p2.enable(newRect);
-      newRect.body.angle = angle / PI * 180;
+      newRect.body.angle = a / PI * 180;
       newRect.body.setCollisionGroup(scene.wireCollisionGroup);
       if (lastRect == null) {
         if (constrainedStart) {
@@ -58,9 +61,8 @@ class Wire {
 
   void update() {
     if (tearConstraint != null) {
-      if (tearConstraint.equations[0].multiplier.abs() > 500) {
+      if (tearConstraint.equations[0].multiplier.abs() > TEAR_THRESHOLD) {
         if (equilibrium) {
-          print('detaching');
           game.physics.p2.removeConstraint(tearConstraint);
           tearConstraint = null;
           if (tearBodyA != null) {

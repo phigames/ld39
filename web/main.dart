@@ -52,3 +52,11 @@ num distance(num x1, num y1, num x2, num y2) {
   num dx = x2 - x1, dy = y2 - y1;
   return sqrt(dx * dx + dy * dy);
 }
+
+num angle(num x1, num y1, num x2, num y2) {
+  if (x1 < x2) {
+    return atan((y2 - y1) / (x2 - x1));
+  } else {
+    return 180 - atan((y2 - y1) / (x2 - x1));
+  }
+}

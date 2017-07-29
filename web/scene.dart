@@ -11,6 +11,7 @@ abstract class Scene {
   num lightRadius;
 
   List<Battery> batteries;
+  List<Wire> wires;
   p2.CollisionGroup mouseCollisionGroup;
   p2.CollisionGroup wireCollisionGroup;
 
@@ -20,6 +21,7 @@ abstract class Scene {
 
   Scene(this.backgroundColor, this.backgroundKey, this.lightRadius) {
     batteries = new List<Battery>();
+    wires = new List<Wire>();
   }
 
   void preload() {
@@ -39,6 +41,9 @@ abstract class Scene {
 
     flashlight = game.add.sprite(0, 0, 'flashlight');
     game.physics.p2.enable(flashlight);
+    flashlight.anchor = new phaser.Point(0.5, 0.2);
+    flashlight.body.clearShapes();
+    flashlight.body.setRectangle(flashlight.width, flashlight.width, 0, 0);
     flashlight.body.setCollisionGroup(mouseCollisionGroup);
     flashlight.body.collides(mouseCollisionGroup);
     flashlight.body.collides(wireCollisionGroup);
