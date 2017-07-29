@@ -15,7 +15,7 @@ class Wire {
     phaser.Sprite<p2.Body> lastRect;
     phaser.Sprite<p2.Body> newRect;
     num width = 20;
-    num height = 5;
+    num height = 10;
     num a = angle(startX, startY, endX, endY);
     num d = distance(startX, startY, endX, endY) / length;
     num dX = cos(a) * d;
@@ -27,9 +27,9 @@ class Wire {
       newRect.body.setCollisionGroup(scene.wireCollisionGroup);
       if (lastRect == null) {
         if (constrainedStart) {
-          p2.Body fixBody = new p2.Body(game);
-          game.physics.p2.addBody(fixBody);
-          constraintStart = game.physics.p2.createRevoluteConstraint(newRect, [ -width / 2 + height / 2, 0 ], fixBody, [ startX, startY ]);
+          p2.Body fixedBody = new p2.Body(game);
+          game.physics.p2.addBody(fixedBody);
+          constraintStart = game.physics.p2.createRevoluteConstraint(newRect, [ -width / 2 + height / 2, 0 ], fixedBody, [ startX, startY ]);
           if (i == tearPoint) {
             tearConstraint = constraintStart;
             tearBodyA = newRect.body;
@@ -50,9 +50,9 @@ class Wire {
       lastRect = newRect;
     }
     if (endX != null && endY != null) {
-      p2.Body fixBody = new p2.Body(game);
-      game.physics.p2.addBody(fixBody);
-      constraintEnd = game.physics.p2.createRevoluteConstraint(lastRect, [ width / 2 - height / 2, 0 ], fixBody, [ endX, endY ]);
+      p2.Body fixedBody = new p2.Body(game);
+      game.physics.p2.addBody(fixedBody);
+      constraintEnd = game.physics.p2.createRevoluteConstraint(lastRect, [ width / 2 - height / 2, 0 ], fixedBody, [ endX, endY ]);
     } else {
       attachableEnds.add(newRect.body);
     }

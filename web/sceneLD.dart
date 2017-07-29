@@ -8,8 +8,9 @@ class SceneLD extends Scene {
 
   void create() {
     super.create();
-    wires.add(new Wire(this, 'wire', 100, 100, true, 25, 5, 300, 300));
+    wires.add(new Wire(this, 'wire', 100, 100, true, 28, 10, 300, 300));
     batteries.add(new Battery(this, 3, 300, 200));
+    removables.add(new Removable(this, 'cover', 695, 200, 50, 25));
     game.world.bringToTop(flashlight);
     game.world.bringToTop(light);
   }
@@ -18,6 +19,7 @@ class SceneLD extends Scene {
     super.preload();
     game.load.image('battery_3', 'res/battery_3.png');
     game.load.image('wire', 'res/wire.png');
+    game.load.image('cover', 'res/cover.png');
   }
 
   void render() {
@@ -33,6 +35,13 @@ class SceneLD extends Scene {
       battery.update();
       if (mouseClicked && distance(mouseX, mouseY, battery.sprite.body.x, battery.sprite.body.y) < 80) {
         battery.hit(angle(mouseX, mouseY, battery.sprite.body.x, battery.sprite.body.y));
+        mouseClicked = false;
+      }
+    }
+    for (Removable removable in removables) {
+      removable.update();
+      if (mouseClicked && game.physics.p2.hitTest(new phaser.Point(mouseX, mouseY), [ removable.sprite.body ]).length > 0) {
+        removable.hit();
         mouseClicked = false;
       }
     }

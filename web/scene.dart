@@ -12,16 +12,19 @@ abstract class Scene {
 
   List<Battery> batteries;
   List<Wire> wires;
+  List<Removable> removables;
   p2.CollisionGroup mouseCollisionGroup;
   p2.CollisionGroup wireCollisionGroup;
 
   num mouseX, mouseY;
+  num mouseTargetX, mouseTargetY;
   num mouseDX, mouseDY;
   bool mouseClicked;
 
   Scene(this.backgroundColor, this.backgroundKey, this.lightRadius) {
     batteries = new List<Battery>();
     wires = new List<Wire>();
+    removables = new List<Removable>();
   }
 
   void preload() {
@@ -47,15 +50,14 @@ abstract class Scene {
     flashlight.body.setCollisionGroup(mouseCollisionGroup);
     flashlight.body.collides(mouseCollisionGroup);
     flashlight.body.collides(wireCollisionGroup);
-    flashlight.body.fixedRotation = true;
+    //flashlight.body.fixedRotation = true;
+    flashlight.body.kinematic = true;
     flashlight.body.mass = 1000000.0;
 
     lightMask = game.add.graphics();
     game.stage.mask = lightMask;
     light = game.add.sprite(0, 0, 'light');
 
-    mouseX = mouseY = 0;
-    mouseDX = mouseDY = 0;
     mouseClicked = false;
     game.input.onDown.add(mouseDown);
     game.input.onUp.add(mouseUp);
@@ -64,12 +66,7 @@ abstract class Scene {
   }
 
   void update() {
-    //if (game.physics.p2.hitTest(new phaser.Point(mouseX, mouseY), [ battery ]).length == 0) {
-    flashlight.body.x = mouseX;
-    flashlight.body.y = mouseY;
-    //}
-    flashlight.body.velocity.x = mouseDX;
-    flashlight.body.velocity.y = mouseDY;
+    updateMouse();
   }
 
   void render();
@@ -83,16 +80,29 @@ abstract class Scene {
   }
 
   void mouseMove(num x, num y, bool fromClick) {
-    mouseDX = x - mouseX;
-    mouseDY = y - mouseY;
-    mouseX = x;
-    mouseY = y;
+    if (mouseX == null) mouseX = x;
+    if (mouseY == null) mouseY = y;
+    mouseTargetX = x;
+    mouseTargetY = y;
+  }
+
+  void updateMouse() {
+    num a = angle(mouseX, mouseY, mouseTargetX, mouseTargetY);
+    num d = min(distance(mouseX, mouseY, mouseTargetX, mouseTargetY), 20);
+    mouseDX = cos(a) * d;
+    mouseDY = sin(a) * d;
+    mouseX += mouseDX;
+    mouseY += mouseDY;
     lightMask.clear();
     lightMask.beginFill(0x000000);
-    lightMask.drawCircle(x, y, lightRadius);
-    light.x = x - lightRadius;
-    light.y = y - lightRadius;
+    lightMask.drawCircle(mouseX, mouseY, lightRadius);
+    light.x = mouseX - lightRadius;
+    light.y = mouseY - lightRadius;
     light.width = light.height = lightRadius * 2;
+    flashlight.body.x = mouseX;
+    flashlight.body.y = mouseY;
+    flashlight.body.velocity.x = mouseDX;
+    flashlight.body.velocity.y = mouseDY;
   }
 
 }
