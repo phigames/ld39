@@ -6,12 +6,13 @@ class Removable {
   phaser.Sprite<p2.Body> sprite; // store body?
   num originX, originY;
   num pivotX, pivotY;
+  bool small;
   num damage;
   num shakeTime;
   bool removed;
   Function callback;
 
-  Removable(this.scene, String key, num x, num y, [this.pivotX, this.pivotY]) {
+  Removable(this.scene, String key, num x, num y, this.small, [this.pivotX, this.pivotY]) {
     sprite = game.add.sprite(x, y, key);
     game.physics.p2.enable(sprite);
     originX = x;

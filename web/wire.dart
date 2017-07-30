@@ -22,7 +22,6 @@ class Wire {
     num d = distance(startX, startY, endX, endY) / length;
     num dX = cos(a) * d;
     num dY = sin(a) * d;
-    print('$dX, $dY');
     for (int i = 0; i < length; i++) {
       newRect = game.add.sprite(startX + i * dX, startY + i * dY, 'wire');
       game.physics.p2.enable(newRect);
@@ -104,9 +103,7 @@ class AttachableEnd {
   p2.Body body;
   Battery battery;
 
-  AttachableEnd(this.scene, this.id, this.body) {
-    print(id);
-  }
+  AttachableEnd(this.scene, this.id, this.body);
 
   void attachBattery(Battery battery) {
     this.battery = battery;
@@ -115,6 +112,7 @@ class AttachableEnd {
 
   void detachBattery() {
     this.battery = null;
+    scene.checkVoltages();
   }
 
 }

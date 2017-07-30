@@ -6,6 +6,7 @@ abstract class Scene {
   String backgroundKey;
   phaser.Sprite background;
   phaser.Sprite<p2.Body> flashlight;
+  phaser.Graphics arm;
   phaser.Graphics lightMask;
   phaser.Sprite light;
   num lightRadius;
@@ -51,7 +52,7 @@ abstract class Scene {
 
   void preload() {
     game.load.image(backgroundKey, 'res/$backgroundKey.png');
-    game.load.image('flashlight', 'res/flashlight.png');
+    game.load.spritesheet('flashlight', 'res/flashlight.png', 50, 110);
     game.load.image('light', 'res/light.png');
   }
 
@@ -64,18 +65,21 @@ abstract class Scene {
     mouseCollisionGroup = game.physics.p2.createCollisionGroup();
     wireCollisionGroup = game.physics.p2.createCollisionGroup();
 
-    flashlight = game.add.sprite(0, 0, 'flashlight');
+    flashlight = game.add.sprite(0, 0, 'flashlight', 1);
     game.physics.p2.enable(flashlight);
-    flashlight.anchor = new phaser.Point(0.5, 0.2);
+    flashlight.anchor = new phaser.Point(0.5, 25 / 110);
     flashlight.body.clearShapes();
-    flashlight.body.setRectangle(flashlight.width, flashlight.width, 0, 0);
+    flashlight.body.addCircle(25, 0, 0);
     flashlight.body.setCollisionGroup(mouseCollisionGroup);
     flashlight.body.collides(mouseCollisionGroup);
     flashlight.body.collides(wireCollisionGroup);
     //flashlight.body.fixedRotation = true;
     flashlight.body.kinematic = true;
     flashlight.body.mass = 1000000.0;
-
+    flashlight.animations.add('hit')
+      ..onStart.add((obj, ani) => flashlight.frame = 0)
+      ..onComplete.add((obj, ani) => flashlight.frame = 1);
+    arm = game.add.graphics();
     lightMask = game.add.graphics();
     game.stage.mask = lightMask;
     light = game.add.sprite(0, 0, 'light');
@@ -91,7 +95,18 @@ abstract class Scene {
     updateMouse();
   }
 
-  void render();
+  void preRender() {
+    if (arm != null) {
+      arm.clear();
+      arm.lineStyle(20, 0xe9afaf);
+      arm.moveTo(game.width / 2, game.height + 10);
+      arm.lineTo(flashlight.body.x + 15, flashlight.body.y + 75);
+    }
+  }
+
+  void render() {
+
+  }
 
   void mouseDown(phaser.Pointer pointer, MouseEvent event) {
     mouseClicked = true;
@@ -115,16 +130,18 @@ abstract class Scene {
     mouseDY = sin(a) * d;
     mouseX += mouseDX;
     mouseY += mouseDY;
-    lightMask.clear();
-    lightMask.beginFill(0x000000);
-    lightMask.drawCircle(mouseX, mouseY, lightRadius);
-    light.x = mouseX - lightRadius;
-    light.y = mouseY - lightRadius;
-    light.width = light.height = lightRadius * 2;
     flashlight.body.x = mouseX;
     flashlight.body.y = mouseY;
     flashlight.body.velocity.x = mouseDX;
     flashlight.body.velocity.y = mouseDY;
+    lightMask.clear();
+    if (game.stage.mask != null) {
+      lightMask.beginFill(0x000000);
+      lightMask.drawCircle(mouseX, mouseY, lightRadius);
+    }
+    light.x = mouseX - lightRadius;
+    light.y = mouseY - lightRadius;
+    light.width = light.height = lightRadius * 2;
   }
 
 }
