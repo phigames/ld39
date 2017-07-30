@@ -12,7 +12,7 @@ class Battery {
   int voltage;
   p2.RevoluteConstraint tearConstraintPlus, tearConstraintMinus;
   Wire tearWirePlus, tearWireMinus;
-  p2.Body tearBodyPlus, tearBodyMinus;
+  AttachableEnd tearEndPlus, tearEndMinus;
   bool equilibriumPlus, equilibriumMinus;
   num disconnectPlusTimer, disconnectMinusTimer;
 
@@ -49,29 +49,31 @@ class Battery {
   void update() {
     if (tearConstraintPlus == null || tearConstraintMinus == null) {
       for (Wire wire in scene.wires) {
-        for (p2.Body body in wire.attachableEnds) {
+        for (AttachableEnd end in wire.attachableEnds) {
           num pA = angle(0, 0, plusX, plusY) + sprite.body.angle / 180 * PI;
           num pD = distance(0, 0, plusX, plusY);
           num pX = sprite.body.x + cos(pA) * pD;
           num pY = sprite.body.y + sin(pA) * pD;
-          if (tearConstraintPlus == null && disconnectPlusTimer == 0 && distance(pX, pY, body.x, body.y) < 30) {
-            tearConstraintPlus = game.physics.p2.createRevoluteConstraint(sprite.body, [ plusX, plusY ], body, [ 0, 0 ]);
+          if (tearConstraintPlus == null && disconnectPlusTimer == 0 && distance(pX, pY, end.body.x, end.body.y) < 30) {
+            tearConstraintPlus = game.physics.p2.createRevoluteConstraint(sprite.body, [ plusX, plusY ], end.body, [ 0, 0 ]);
             tearWirePlus = wire;
-            tearBodyPlus = body;
-            wire.attachableEnds.remove(body);
+            tearEndPlus = end;
+            wire.attachableEnds.remove(end);
             equilibriumPlus = false;
+            tearEndPlus.attachBattery(this);
             break;
           }
           num mA = angle(0, 0, minusX, minusY) + sprite.body.angle / 180 * PI;
           num mD = distance(0, 0, minusX, minusY);
           num mX = sprite.body.x + cos(mA) * mD;
           num mY = sprite.body.y + sin(mA) * mD;
-          if (tearConstraintMinus == null && disconnectMinusTimer == 0 && distance(mX, mY, body.x, body.y) < 30) {
-            tearConstraintMinus = game.physics.p2.createRevoluteConstraint(sprite.body, [ minusX, minusY ], body, [ 0, 0 ]);
+          if (tearConstraintMinus == null && disconnectMinusTimer == 0 && distance(mX, mY, end.body.x, end.body.y) < 30) {
+            tearConstraintMinus = game.physics.p2.createRevoluteConstraint(sprite.body, [ minusX, minusY ], end.body, [ 0, 0 ]);
             tearWireMinus = wire;
-            tearBodyMinus = body;
-            wire.attachableEnds.remove(body);
+            tearEndMinus = end;
+            wire.attachableEnds.remove(end);
             equilibriumMinus = false;
+            tearEndMinus.attachBattery(this);
             break;
           }
         }
@@ -90,7 +92,8 @@ class Battery {
         if (equilibriumPlus) {
           game.physics.p2.removeConstraint(tearConstraintPlus);
           tearConstraintPlus = null;
-          tearWirePlus.attachableEnds.add(tearBodyPlus);
+          tearWirePlus.attachableEnds.add(tearEndPlus);
+          tearEndPlus.detachBattery();
           disconnectPlusTimer = 0.5;
         }
       } else if (!equilibriumPlus && tearConstraintPlus.equations[0].multiplier != 0) {
@@ -102,7 +105,8 @@ class Battery {
         if (equilibriumMinus) {
           game.physics.p2.removeConstraint(tearConstraintMinus);
           tearConstraintMinus = null;
-          tearWireMinus.attachableEnds.add(tearBodyMinus);
+          tearWireMinus.attachableEnds.add(tearEndMinus);
+          tearEndMinus.detachBattery();
           disconnectMinusTimer = 0.5;
         }
       } else if (!equilibriumMinus && tearConstraintMinus.equations[0].multiplier != 0) {

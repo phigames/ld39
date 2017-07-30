@@ -10,10 +10,12 @@ abstract class Scene {
   phaser.Sprite light;
   num lightRadius;
 
+  List<Device> devices;
   List<Removable> removables;
   List<Switch> switches;
   List<Battery> batteries;
   List<Wire> wires;
+  List<AttachableEnd> attachableEnds;
   p2.CollisionGroup mouseCollisionGroup;
   p2.CollisionGroup wireCollisionGroup;
 
@@ -23,10 +25,28 @@ abstract class Scene {
   bool mouseClicked;
 
   Scene(this.backgroundColor, this.backgroundKey, this.lightRadius) {
+    devices = new List<Device>();
     removables = new List<Removable>();
     switches = new List<Switch>();
     batteries = new List<Battery>();
     wires = new List<Wire>();
+    attachableEnds = new List<AttachableEnd>();
+  }
+
+  void checkVoltages() {
+    Map<String, AttachableEnd> ends = new Map<String, AttachableEnd>();
+    for (AttachableEnd end in attachableEnds) {
+      ends[end.id] = end;
+    }
+    bool won = true;
+    for (Device device in devices) {
+      if (!device.check(ends)) {
+        won = false;
+      }
+    }
+    if (won) {
+      print('WON');
+    }
   }
 
   void preload() {
