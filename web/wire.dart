@@ -2,15 +2,16 @@ part of ld39;
 
 class Wire {
 
-  static const num TEAR_THRESHOLD = 500;
+  static const num TEAR_THRESHOLD = 700;
 
   Scene scene;
   p2.RevoluteConstraint constraintStart, constraintEnd, tearConstraint;
   p2.Body tearBodyA, tearBodyB;
+  phaser.Sprite<p2.Body> endSprite;
   List<p2.Body> attachableEnds;
   bool equilibrium;
 
-  Wire(this.scene, String key, num startX, num startY, bool constrainedStart, int length, num endX, num endY, [bool constrainedEnd = false, int tearPoint]) {
+  Wire(this.scene, String key, num startX, num startY, bool constrainedStart, int length, num endX, num endY, [bool constrainedEnd = false, this.endSprite, int tearPoint]) {
     attachableEnds = new List<p2.Body>();
     phaser.Sprite<p2.Body> lastRect;
     phaser.Sprite<p2.Body> newRect;
@@ -51,9 +52,13 @@ class Wire {
       lastRect = newRect;
     }
     if (constrainedEnd) {
-      p2.Body fixedBody = new p2.Body(game);
-      game.physics.p2.addBody(fixedBody);
-      constraintEnd = game.physics.p2.createRevoluteConstraint(lastRect, [ width / 2 - height / 2, 0 ], fixedBody, [ endX, endY ]);
+      if (endSprite == null) {
+        p2.Body fixedBody = new p2.Body(game);
+        game.physics.p2.addBody(fixedBody);
+        constraintEnd = game.physics.p2.createRevoluteConstraint(lastRect, [ width / 2 - height / 2, 0], fixedBody, [ endX, endY]);
+      } else {
+        constraintEnd = game.physics.p2.createRevoluteConstraint(lastRect, [ width / 2 - height / 2, 0], endSprite.body, [ endSprite.width / 2, endSprite.height / 2]);
+      }
     } else {
       attachableEnds.add(newRect.body);
       newRect.body.velocity.y = 100;

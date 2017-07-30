@@ -8,6 +8,8 @@ class Removable {
   num pivotX, pivotY;
   num damage;
   num shakeTime;
+  bool removed;
+  Function callback;
 
   Removable(this.scene, String key, num x, num y, [this.pivotX, this.pivotY]) {
     sprite = game.add.sprite(x, y, key);
@@ -16,6 +18,11 @@ class Removable {
     originY = y;
     damage = 0;
     shakeTime = 0;
+    removed = false;
+  }
+
+  void set onRemoved(Function function) {
+    callback = function;
   }
 
   void remove() {
@@ -28,14 +35,23 @@ class Removable {
       game.physics.p2.createRevoluteConstraint(sprite, [ pivotX, pivotY ], fixedBody, [ sprite.x + pivotX, sprite.y + pivotY ]);
     }
     //sprite.body.velocity.y = 50;
+    if (callback != null) {
+      callback();
+    }
+    removed = true;
   }
 
   void hit() {
-    damage += 0.5;
-    if (damage > 2) {
-      remove();
+    if (!removed) {
+      damage += 0.5;
+      if (damage > 2) {
+        remove();
+      }
+      shakeTime = 0.2;
+    } else {
+      sprite.body.velocity.x = 20;
+      sprite.body.velocity.y = 20;
     }
-    shakeTime = 0.2;
   }
 
   void update() {
